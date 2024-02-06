@@ -24,7 +24,7 @@ app.get('/api/hello', function (req, res) {
 });
 
 app.get('/api', function (req, res) {
-  const utc = new Date().toString();
+  const utc = new Date().toUTCString();
   const unix = new Date().valueOf();
   res.json({ unix, utc });
 });
@@ -35,11 +35,11 @@ app.get('/api/:date', function (req, res) {
   let unix;
   if (Number(dateInUrl)) {
     unix = Number(dateInUrl);
-    utc = new Date(unix).toString();
+    utc = new Date(unix).toUTCString();
     res.json({ unix, utc });
-  } else if (Date.parse(dateInUrl) !== NaN) {
-    unix = Date.parse(dateInUrl);
-    utc = new Date(dateInUrl).toString();
+  } else if (new Date(dateInUrl).toUTCString() !== 'Invalid Date') {
+    unix = new Date(dateInUrl).valueOf();
+    utc = new Date(dateInUrl).toUTCString();
     res.json({ unix, utc });
   } else {
     res.json({ error: 'Invalid Date' });
