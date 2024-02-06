@@ -31,15 +31,15 @@ app.get('/api', function (req, res) {
 
 app.get('/api/:date', function (req, res) {
   const dateInUrl = req.params.date;
-  let utc = new Date().toString();
-  let unix = new Date().valueOf();
+  let utc;
+  let unix;
   if (Number(dateInUrl)) {
     unix = Number(dateInUrl);
-    utc = new Date(unix);
+    utc = new Date(unix).toString();
     res.json({ unix, utc });
   } else if (Date.parse(dateInUrl) !== NaN) {
     unix = Date.parse(dateInUrl);
-    utc = new Date(unix);
+    utc = new Date(dateInUrl).toString();
     res.json({ unix, utc });
   } else {
     res.json({ error: 'Invalid Date' });
